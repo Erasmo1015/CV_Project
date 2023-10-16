@@ -1,5 +1,10 @@
 # PyCIL: A Python Toolbox for Class-Incremental Learning
 
+## Download project dataset 
+1. download dataset from elearn Deep Learning and Vision/ Week 7/ Course Project
+2. put unzipped dataset under data/elearn_raw/train and dataset/elearn_raw/val
+3. run utils/convert_raw_dataset.py
+4. the new dataset is now at data/elearn
 ---
 
 <p align="center">
