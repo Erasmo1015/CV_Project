@@ -1,10 +1,25 @@
 # PyCIL: A Python Toolbox for Class-Incremental Learning
 
+## Set up environment
+Please refer to section "Dependencies" below
+
 ## Download project dataset 
 1. download dataset from elearn Deep Learning and Vision/ Week 7/ Course Project
-2. put unzipped dataset under data/elearn_raw/train and dataset/elearn_raw/val
+2. put unzipped dataset under data/elearn_raw/train and dataset/elearn/val
 3. run utils/convert_raw_dataset.py
-4. the new dataset is now at data/elearn
+4. the new dataset is now at data/elearn/train, if you do not have a test dataset, you can copy the same folder to data/elearn/test
+
+## Run the code
+
+1. Edit the `[MODEL NAME].json` file for global settings.
+2. Edit the hyperparameters in the corresponding `[MODEL NAME].py` file (e.g., `models/icarl.py`).
+3. Run:
+
+```bash
+python main.py --config=./exps/[MODEL NAME].json
+```
+By default [MODEL NAME] is "simplecil_proj"
+
 ---
 
 <p align="center">
