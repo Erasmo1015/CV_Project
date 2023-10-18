@@ -6,7 +6,7 @@ from utils import factory
 from utils.data_manager import DataManager
 from utils.toolkit import count_parameters
 import os
-
+from utils.data import load_valdataset
 
 def train(args):
     seed_list = copy.deepcopy(args["seed"])
@@ -62,6 +62,7 @@ def _train(args):
         logging.info(
             "Trainable params: {}".format(count_parameters(model._network, True))
         )
+        # write_output(model)
         model.incremental_train(data_manager)
         cnn_accy, nme_accy = model.eval_task()
         model.after_task()
@@ -98,7 +99,7 @@ def _train(args):
 
             print('Average Accuracy (CNN):', sum(cnn_curve["top1"])/len(cnn_curve["top1"]))
             logging.info("Average Accuracy (CNN): {}".format(sum(cnn_curve["top1"])/len(cnn_curve["top1"])))
-
+        write_output(model, task)
     
 def _set_device(args):
     device_type = args["device"]
@@ -126,3 +127,21 @@ def _set_random():
 def print_args(args):
     for key, value in args.items():
         logging.info("{}: {}".format(key, value))
+
+# use the model to make predictions on the val set which is in data/elearn/val,
+# and save the predictions in output/result_i.txt, i is the iteration index
+# each line in the txt file is like this: image_name, predicted_label
+def write_output(model, task):
+    model._network.eval()
+    val_dataset = load_valdataset()
+    results = []
+    for image, img_name in val_dataset:
+        image = image.unsqueeze(0)
+        image = image.to(model._device)
+        output = model._network(image)
+        _, predicted = torch.max(output["logits"], 1)
+        results.append('{} {}\n'.format(img_name, predicted.item()))
+    with open('output/result_{}.txt'.format(task), 'w') as f:
+        for i in results:
+            f.write(i)
+    

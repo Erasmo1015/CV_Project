@@ -12,7 +12,7 @@
     "device": ["0"],
     "seed": [1993],
     
-    "init_epoch": 50,
+    "init_epoch": 200,
     "init_lr": 0.01,
     "batch_size": 256,
     "weight_decay": 0.05,

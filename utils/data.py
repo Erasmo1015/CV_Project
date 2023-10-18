@@ -1,7 +1,10 @@
 import numpy as np
 from torchvision import datasets, transforms
 from utils.toolkit import split_images_labels
-
+from torch.utils.data import Dataset
+import torch.utils.data as data
+import os
+from PIL import Image
 
 class iData(object):
     train_trsf = []
@@ -134,8 +137,6 @@ class iElearn(iData):
     ]
     test_trsf = [
         transforms.RandomCrop(32, padding=4),
-        transforms.RandomHorizontalFlip(),
-        transforms.ColorJitter(brightness=63 / 255),
         transforms.ToTensor()]
     common_trsf = [
         transforms.Normalize(
@@ -153,3 +154,27 @@ class iElearn(iData):
 
         self.train_data, self.train_targets = split_images_labels(train_dset.imgs)
         self.test_data, self.test_targets = split_images_labels(test_dset.imgs)
+
+class ValDataSet(Dataset):
+    def __init__(self, main_dir):
+        self.main_dir = main_dir
+        self.transform = transforms.Compose([transforms.RandomCrop(32, padding=4), 
+                                            transforms.ToTensor()])
+        all_imgs = os.listdir(main_dir)
+        # sort all_imgs
+        all_imgs.sort(key=lambda x: int(x.split('.')[0]))
+        self.total_imgs = all_imgs
+
+    def __len__(self):
+        return len(self.total_imgs)
+
+    def __getitem__(self, idx):
+        img_loc = os.path.join(self.main_dir, self.total_imgs[idx])
+        image = Image.open(img_loc).convert("RGB")
+        tensor_image = self.transform(image)
+        return tensor_image, img_loc.split('/')[-1]
+def load_valdataset():
+    my_dataset = ValDataSet("/home/zichang/repo/PyCIL/data/elearn/val")
+    # train_loader = data.DataLoader(my_dataset , batch_size=256, shuffle=False, 
+    #                            num_workers=4, drop_last=True)
+    return my_dataset
