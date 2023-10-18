@@ -132,18 +132,21 @@ class iElearn(iData):
         transforms.ColorJitter(brightness=63 / 255),
         transforms.ToTensor()
     ]
-    test_trsf = [transforms.ToTensor()]
+    test_trsf = [
+        transforms.RandomCrop(32, padding=4),
+        transforms.RandomHorizontalFlip(),
+        transforms.ColorJitter(brightness=63 / 255),
+        transforms.ToTensor()]
     common_trsf = [
         transforms.Normalize(
             mean=(0.5071, 0.4867, 0.4408), std=(0.2675, 0.2565, 0.2761)
         ),
     ]
-
     class_order = np.arange(100).tolist()
 
     def download_data(self):
         train_dir = "/home/zichang/repo/PyCIL/data/elearn/train/"
-        test_dir = "/home/zichang/repo/PyCIL/data/elearn/train/"
+        test_dir = "/home/zichang/repo/PyCIL/data/elearn/test/"
 
         train_dset = datasets.ImageFolder(train_dir)
         test_dset = datasets.ImageFolder(test_dir)
