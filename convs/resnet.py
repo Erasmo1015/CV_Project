@@ -14,10 +14,22 @@ __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'wide_resnet50_2', 'wide_resnet101_2']
 
 
+# model_urls = {
+#     'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
+#     'resnet34': 'https://download.pytorch.org/models/resnet34-333f7ec4.pth',
+#     'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
+#     'resnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
+#     'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
+#     'resnext50_32x4d': 'https://download.pytorch.org/models/resnext50_32x4d-7cdf4587.pth',
+#     'resnext101_32x8d': 'https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth',
+#     'wide_resnet50_2': 'https://download.pytorch.org/models/wide_resnet50_2-95faca4d.pth',
+#     'wide_resnet101_2': 'https://download.pytorch.org/models/wide_resnet101_2-32ee1156.pth',
+# }
+
 model_urls = {
     'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
-    'resnet34': 'https://download.pytorch.org/models/resnet34-333f7ec4.pth',
-    'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
+    'resnet34': 'https://download.pytorch.org/models/resnet34-b627a593.pth',
+    'resnet50': 'https://download.pytorch.org/models/resnet50-11ad3fa6.pth',
     'resnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
     'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
     'resnext50_32x4d': 'https://download.pytorch.org/models/resnext50_32x4d-7cdf4587.pth',
@@ -178,6 +190,15 @@ class ResNet(nn.Module):
                     nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
                 )
 
+        # Custom Dataset
+        else:
+                self.conv1 = nn.Sequential(
+                    nn.Conv2d(3, self.inplanes, kernel_size=3, stride=1, padding=1, bias=False),
+                    nn.BatchNorm2d(self.inplanes),
+                    nn.ReLU(inplace=True),
+                    nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
+                )
+
 
         self.layer1 = self._make_layer(block, 64, layers[0])
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2,
@@ -265,7 +286,20 @@ def _resnet(arch, block, layers, pretrained, progress, **kwargs):
     if pretrained:
         state_dict = load_state_dict_from_url(model_urls[arch],
                                               progress=progress)
-        model.load_state_dict(state_dict)
+        model.load_state_dict(state_dict, strict=False)
+
+        # model_state_dict = model.state_dict()
+        # for key, value in model_state_dict.items():
+        #     print(f"Param Name: {key}, Shape: {value.shape}")
+        #     print(f"Param Values: {value}")
+
+        # Freeze Model after loading pre-train
+        for name, param in model.named_parameters():
+            # print(f'Param Name: {name}')
+
+            if 'fc' not in name:
+                param.requires_grad = False
+
     return model
 
 def resnet10(pretrained=False, progress=True, **kwargs):

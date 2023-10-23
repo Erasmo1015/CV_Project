@@ -58,12 +58,15 @@ def _train(args):
 
     cnn_curve, nme_curve = {"top1": [], "top5": []}, {"top1": [], "top5": []}
     for task in range(data_manager.nb_tasks):
+        
+        # write_output(model)
+        model.incremental_train(data_manager)
+
         logging.info("All params: {}".format(count_parameters(model._network)))
         logging.info(
             "Trainable params: {}".format(count_parameters(model._network, True))
         )
-        # write_output(model)
-        model.incremental_train(data_manager)
+
         cnn_accy, nme_accy = model.eval_task()
         model.after_task()
 
@@ -140,8 +143,8 @@ def write_output(model, task):
         image = image.to(model._device)
         output = model._network(image)
         _, predicted = torch.max(output["logits"], 1)
-        results.append('{} {}\n'.format(img_name, predicted.item()))
-    with open('output/result_{}.txt'.format(task), 'w') as f:
+        results.append('{} {}\n'.format(img_name.split('\\')[1], predicted.item()))
+    with open('output/result_{}.txt'.format(task + 1), 'w') as f:
         for i in results:
             f.write(i)
     

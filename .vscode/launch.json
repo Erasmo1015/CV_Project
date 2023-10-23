@@ -4,48 +4,49 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": true
-        },
-        // run the following command: python main.py --config=./exps/il2a_copy.json
-        {
-            // "preLaunchTask": "set_pypath",
-            "name": "1Python: IL2A",
-            "type": "python",
-            "request": "launch",
-            "program": "/home/zichang/repo/PyCIL/main.py",
-            "cwd": "/home/zichang/repo/PyCIL",
-            "console": "integratedTerminal",
-            "justMyCode": false,
-            "args": [
-                "--config=./exps/il2a_copy.json",
-                 ],
-        },
-        {
-            // "preLaunchTask": "set_pypath",
-            "name": "2Python: SimpleCIL",
-            "type": "python",
-            "request": "launch",
-            "program": "/home/zichang/repo/PyCIL/main.py",
-            "cwd": "/home/zichang/repo/PyCIL",
-            "console": "integratedTerminal",
-            "justMyCode": false,
-            "args": [
-                "--config=./exps/simplecil_copy.json",
-                 ],
-        },
+
+        // {
+        //     "name": "Python: Current File",
+        //     "type": "python",
+        //     "request": "launch",
+        //     "program": "${file}",
+        //     "console": "integratedTerminal",
+        //     "justMyCode": true
+        // },
+        // // run the following command: python main.py --config=./exps/il2a_copy.json
+        // {
+        //     // "preLaunchTask": "set_pypath",
+        //     "name": "1Python: IL2A",
+        //     "type": "python",
+        //     "request": "launch",
+        //     "program": "/home/zichang/repo/PyCIL/main.py",
+        //     "cwd": "/home/zichang/repo/PyCIL",
+        //     "console": "integratedTerminal",
+        //     "justMyCode": false,
+        //     "args": [
+        //         "--config=./exps/il2a_copy.json",
+        //          ],
+        // },
+        // {
+        //     // "preLaunchTask": "set_pypath",
+        //     "name": "2Python: SimpleCIL",
+        //     "type": "python",
+        //     "request": "launch",
+        //     "program": "/home/zichang/repo/PyCIL/main.py",
+        //     "cwd": "/home/zichang/repo/PyCIL",
+        //     "console": "integratedTerminal",
+        //     "justMyCode": false,
+        //     "args": [
+        //         "--config=./exps/simplecil_copy.json",
+        //          ],
+        // },
         {
             // "preLaunchTask": "set_pypath",
             "name": "3Python: SimpleCIL for CV project",
             "type": "python",
             "request": "launch",
-            "program": "/home/zichang/repo/PyCIL/main.py",
-            "cwd": "/home/zichang/repo/PyCIL",
+            "program": "C:/Users/Seow Chong/Desktop/Project CS701/CV_Project/main.py",
+            "cwd": "C:/Users/Seow Chong/Desktop/Project CS701/CV_Project",
             "console": "integratedTerminal",
             "justMyCode": false,
             "args": [

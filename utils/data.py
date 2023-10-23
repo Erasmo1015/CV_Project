@@ -130,24 +130,23 @@ class iImageNet100(iData):
 class iElearn(iData):
     use_path = True
     train_trsf = [
-        transforms.RandomCrop(32, padding=4),
+        transforms.RandomResizedCrop(224),
         transforms.RandomHorizontalFlip(),
-        transforms.ColorJitter(brightness=63 / 255),
-        transforms.ToTensor()
     ]
     test_trsf = [
-        transforms.RandomCrop(32, padding=4),
-        transforms.ToTensor()]
-    common_trsf = [
-        transforms.Normalize(
-            mean=(0.5071, 0.4867, 0.4408), std=(0.2675, 0.2565, 0.2761)
-        ),
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
     ]
+    common_trsf = [
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.479, 0.493, 0.494], std=[0.231, 0.226, 0.255]),
+    ]
+
     class_order = np.arange(100).tolist()
 
     def download_data(self):
-        train_dir = "/home/zichang/repo/PyCIL/data/elearn/train/"
-        test_dir = "/home/zichang/repo/PyCIL/data/elearn/test/"
+        train_dir = "./data/elearn/train/"
+        test_dir = "./data/elearn/test/"
 
         train_dset = datasets.ImageFolder(train_dir)
         test_dset = datasets.ImageFolder(test_dir)
@@ -158,8 +157,10 @@ class iElearn(iData):
 class ValDataSet(Dataset):
     def __init__(self, main_dir):
         self.main_dir = main_dir
-        self.transform = transforms.Compose([transforms.RandomCrop(32, padding=4), 
-                                            transforms.ToTensor()])
+        self.transform = transforms.Compose([transforms.Resize(256),
+                                            transforms.CenterCrop(224), 
+                                            transforms.ToTensor(), 
+                                            transforms.Normalize(mean=[0.479, 0.493, 0.494], std=[0.231, 0.226, 0.255])])
         all_imgs = os.listdir(main_dir)
         # sort all_imgs
         all_imgs.sort(key=lambda x: int(x.split('.')[0]))
@@ -174,7 +175,7 @@ class ValDataSet(Dataset):
         tensor_image = self.transform(image)
         return tensor_image, img_loc.split('/')[-1]
 def load_valdataset():
-    my_dataset = ValDataSet("/home/zichang/repo/PyCIL/data/elearn/val")
+    my_dataset = ValDataSet("./data/elearn/val")
     # train_loader = data.DataLoader(my_dataset , batch_size=256, shuffle=False, 
     #                            num_workers=4, drop_last=True)
     return my_dataset

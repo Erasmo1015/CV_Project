@@ -24,7 +24,8 @@ milestones = [80, 120]
 class SimpleCIL(BaseLearner):
     def __init__(self, args):
         super().__init__(args)
-        self._network = SimpleCosineIncrementalNet(args, False)
+        # self._network = SimpleCosineIncrementalNet(args, False)
+        self._network = SimpleCosineIncrementalNet(args, True)
         self.min_lr = args['min_lr'] if args['min_lr'] is not None else 1e-8
         self.args = args
 
@@ -101,6 +102,7 @@ class SimpleCIL(BaseLearner):
             losses = 0.0
             correct, total = 0, 0
             for i, (_, inputs, targets) in enumerate(train_loader):
+                targets = targets.type(torch.LongTensor)
                 inputs, targets = inputs.to(self._device), targets.to(self._device)
                 logits = self._network(inputs)["logits"]
 

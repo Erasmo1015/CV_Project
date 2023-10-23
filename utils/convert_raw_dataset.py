@@ -3,8 +3,8 @@ import os
 import shutil
 
 # Define paths
-raw_data_path = "/home/zichang/repo/PyCIL/data/elearn_raw/train"
-new_data_path = "/home/zichang/repo/PyCIL/data/elearn/train"
+raw_data_path = "C:/Users/Seow Chong/Desktop/Project CS701/CV_Project/data/elearn_raw/train"
+new_data_path = "C:/Users/Seow Chong/Desktop/Project CS701/CV_Project/data/elearn/train"
 
 # Loop through all subdirectories in raw_data_path
 for root, dirs, files in os.walk(raw_data_path):
