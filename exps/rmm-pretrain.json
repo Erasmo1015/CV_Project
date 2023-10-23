@@ -1,6 +1,6 @@
 {
     "prefix": "pretrain-rmm",
-    "dataset": "cifar100",
+    "dataset": "elearn",
     "memory_size": 2000,
     "shuffle": true,
     "model_name": "rmm-icarl",

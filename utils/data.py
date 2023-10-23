@@ -130,17 +130,17 @@ class iImageNet100(iData):
 class iElearn(iData):
     use_path = True
     train_trsf = [
-        transforms.RandomCrop(32, padding=4),
+        transforms.RandomCrop(128, padding=4),
         transforms.RandomHorizontalFlip(),
         transforms.ColorJitter(brightness=63 / 255),
         transforms.ToTensor()
     ]
     test_trsf = [
-        transforms.RandomCrop(32, padding=4),
+        transforms.RandomCrop(128, padding=4),
         transforms.ToTensor()]
     common_trsf = [
         transforms.Normalize(
-            mean=(0.5071, 0.4867, 0.4408), std=(0.2675, 0.2565, 0.2761)
+            mean=(128.81497, 126.44422, 122.213646), std=(46.183434, 43.214943, 43.449112)
         ),
     ]
     class_order = np.arange(100).tolist()

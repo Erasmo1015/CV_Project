@@ -1,10 +1,10 @@
 {
     "prefix": "reproduce",
-    "dataset": "cifar100",
+    "dataset": "elearn",
     "memory_size": 2000,
     "memory_per_class": 20,
     "fixed_memory": false,
-    "shuffle": true,
+    "shuffle": false,
     "init_cls": 10,
     "increment": 10,
     "model_name": "gem",
